@@ -15,7 +15,8 @@ char *_getline(void)
 	if (n_byte < 0)
 	{
 		/*perror("Error-5 : ");*/
-		exit(1);
+		free(line);
+		exit(errno);
 	}
 	return (line);
 }

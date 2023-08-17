@@ -8,10 +8,10 @@
 * Return: This will be returned by the shell program
 */
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
-	char *line;
-	char **tokens;
+	char *line = NULL;
+	char **tokens = NULL;
 	int mode;
 
 	signal(SIGINT, signal_handler);
@@ -27,23 +27,21 @@ int main(int argc, char **argv)
 		if (line != NULL)
 		{
 			tokens = _token(line);
-			if (strcmp(tokens[0], "exit") == 0 || strcmp(tokens[0], "quit") == 0)
+			if (tokens[0] == NULL || tokens == NULL)
 			{
-				free(line), free(tokens);
-				line = NULL, tokens = NULL;
-				write(1, "\n", 1);
-				break;
+				free(line), free_token_array(tokens);
+				continue;
 			}
-			if (tokens != NULL)
+			if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "quit") == 0)
 			{
-				exec_cmd(tokens, argv);
-				free(tokens);
-				free(line);
-				line = NULL, tokens = NULL;
+				free_token_array(tokens);
+				exit(0);
 			}
+			exec_cmd(tokens, argv, env);
+			/*free_token_array(tokens);*/
+			continue;
 		}
 		free(line);
-		line = NULL;
 	}
 	return (0);
 }
