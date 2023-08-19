@@ -4,32 +4,36 @@
 * main - Main program
 * @argc: Argument count
 * @argv: Argument vector
+* @env: environment variable
 *
 * Return: This will be returned by the shell program
 */
 
 int main(int argc, char **argv, char **env)
 {
-	char *line = NULL;
+	char *line = NULL, *prompt = "$ ";
 	char **tokens = NULL;
 	int mode;
 
+	if (argc > 1 || argv == NULL)
+		write(2, "Please run with no arguments\n", 29), exit(127);
+
 	signal(SIGINT, signal_handler);
-	UNUSED(argc);
+	/* Handle Non-interactive mode */
 	mode = isatty(0);
 	while (1)
 	{
 		if (mode == 1)
-			printf("Bello >>> $ ");
+			write(STDOUT_FILENO, prompt, 2); 
 
-		/*printf(">>> $ ");*/
 		line = _getline();
 		if (line != NULL)
 		{
 			tokens = _token(line);
 			if (tokens[0] == NULL || tokens == NULL)
 			{
-				free(line), free_token_array(tokens);
+				free(line);
+				free_token_array(tokens);
 				continue;
 			}
 			if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "quit") == 0)
@@ -37,9 +41,13 @@ int main(int argc, char **argv, char **env)
 				free_token_array(tokens);
 				exit(0);
 			}
-			exec_cmd(tokens, argv, env);
-			/*free_token_array(tokens);*/
-			continue;
+			if (exec_cmd(tokens, argv, env) == -1)
+			{
+				free_token_array(tokens);
+				break;
+			}
+			else
+				continue;
 		}
 		free(line);
 	}

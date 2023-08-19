@@ -1,15 +1,20 @@
 #include "main.h"
-
+/**
+ * free_token_array - Its free memory adresses
+ * @tokens: list of array to free
+ *
+ * Return: no return value;
+ */
 void free_token_array(char **tokens)
 {
-        int i = 0;
+	int i = 0;
 
-        while(tokens[i] != NULL)
-        {
-                free(tokens[i]);
-                i++;
-        }
-        free(tokens);
+	while (tokens[i] != NULL)
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
 }
 
 /**

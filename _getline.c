@@ -14,9 +14,12 @@ char *_getline(void)
 	n_byte = getline(&line, &n, stdin);
 	if (n_byte < 0)
 	{
-		/*perror("Error-5 : ");*/
+		perror("getline error: ");
 		free(line);
-		exit(errno);
+		exit(EXIT_FAILURE);
 	}
+	/* Remove the new line character with null terminator */
+	if (line[n_byte - 1] == '\n')
+	       line[n_byte - 1] = '\0';
 	return (line);
 }

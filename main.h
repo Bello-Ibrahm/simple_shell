@@ -13,9 +13,12 @@
 char *_getline(void);
 char **_token(char *line_arg);
 void signal_handler(int x);
-void  exec_cmd(char **args, char **argv, char **env);
+int  exec_cmd(char **args, char **argv, char **env);
 void _error(char *msg, char **argv);
+char *_path(char *cmd, char **env);
+
 
 int _strcmp(char *s1, char *s2);
 void free_token_array(char **token);
+char *_strcat(char *dest, char *src);
 #endif
