@@ -17,8 +17,11 @@ int  exec_cmd(char **args, char **argv, char **env);
 void _error(char *msg, char **argv);
 char *_path(char *cmd, char **env);
 
-
+int count_words(char *str);
+char *_strcpy(char *dest, char *src);
+int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 void free_token_array(char **token);
 char *_strcat(char *dest, char *src);
+void comment_handler(char **str);
 #endif

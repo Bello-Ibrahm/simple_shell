@@ -14,9 +14,11 @@ char *_getline(void)
 	n_byte = getline(&line, &n, stdin);
 	if (n_byte < 0)
 	{
-		perror("getline error: ");
+		/*perror("getline error: ");*/
 		free(line);
-		exit(EXIT_FAILURE);
+		if (isatty(STDIN_FILENO) != 0)
+			write(STDOUT_FILENO, "\n", 1);
+		exit(0);
 	}
 	/* Remove the new line character with null terminator */
 	if (line[n_byte - 1] == '\n')

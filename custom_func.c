@@ -16,7 +16,34 @@ void free_token_array(char **tokens)
 	}
 	free(tokens);
 }
+/*
+void comment_handler(char *str)
+{
+	int i = 0;
 
+	while (str[i])
+	{
+		if (str[i] == '#')
+			str[i] = '\0';
+		i++;
+	}
+}*/
+
+void comment_handler(char **str)
+{
+	int i = 0;
+
+	if ((*str)[i] == '#')
+	{
+		while ((*str)[i])
+		{
+			if ((*str)[i] != '#')
+				break;
+
+			(*str)++;
+		}
+	}
+}
 /**
  * _putchar - writes the character c to stdout
  * @c: The character to print
