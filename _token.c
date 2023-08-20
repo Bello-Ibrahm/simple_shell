@@ -28,7 +28,8 @@ char **_token(char *line_arg)
 	token2[len] = NULL;
 	return (token2);
 
-	/*int len = 0, buff_size = 16;
+	/*
+	int len = 0, buff_size = 16;
 	char *token, **tokens;
 	char *delim = " \t\r\n";
 
@@ -57,6 +58,7 @@ char **_token(char *line_arg)
 		token = strtok(NULL, delim);
 	}
 	tokens[len] = NULL/
-	return (tokens);*/
+	return (tokens);
+	*/
 
 }

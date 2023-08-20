@@ -22,6 +22,6 @@ char *_getline(void)
 	}
 	/* Remove the new line character with null terminator */
 	if (line[n_byte - 1] == '\n')
-	       line[n_byte - 1] = '\0';
+		line[n_byte - 1] = '\0';
 	return (line);
 }

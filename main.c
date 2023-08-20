@@ -17,15 +17,13 @@ int main(int argc, char **argv, char **env)
 
 	if (argc > 1 || argv == NULL)
 		write(2, "Please run with no arguments\n", 29), exit(127);
-
 	signal(SIGINT, signal_handler);
 	/* Handle Non-interactive mode */
 	mode = isatty(0);
 	while (1)
 	{
 		if (mode == 1)
-			write(STDOUT_FILENO, prompt, 2); 
-
+			write(STDOUT_FILENO, prompt, 2);
 		line = _getline();
 		if (line != NULL)
 		{
@@ -33,24 +31,24 @@ int main(int argc, char **argv, char **env)
 			comment_handler(tokens);
 			if (tokens[0] == NULL || tokens == NULL)
 			{
-				free(line);
-				free_token_array(tokens);
+				free(line), free_token_array(tokens);
 				continue;
 			}
 			if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "quit") == 0)
 			{
-				free(line), free_token_array(tokens);
-				exit(0);
+				free(line), free_token_array(tokens), exit(0);
 			}
 			if (exec_cmd(tokens, argv, env) == -1)
 			{
 				free(line), free_token_array(tokens);
-				break;
+				continue;
 			}
 			else
+			{
+				free(line);
 				continue;
+			}
 		}
-		free(line);
 	}
 	return (0);
 }
