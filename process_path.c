@@ -13,7 +13,11 @@ char  *proc_path(char **tokens, char *path)
 
 	if (stat(tokens[0], &st) == 0)
 	{
-		return (tokens[0]);
+		combine = malloc(sizeof(char) * _strlen(tokens[0]));
+		_strcpy(combine, tokens[0]);
+		free(path);
+		return (combine);
+		/*return (tokens[0]);*/
 	}
 	else
 	{
@@ -28,7 +32,7 @@ char  *proc_path(char **tokens, char *path)
 			_strcat(combine, tokens[0]);
 			if (stat(combine, &st) == 0)
 			{
-				free(temp);
+				free(temp), free(path);
 				return (combine);
 			}
 			free(combine);
