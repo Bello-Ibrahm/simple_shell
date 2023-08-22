@@ -20,8 +20,7 @@ char *_getline(void)
 			write(STDOUT_FILENO, "\n", 1);
 		exit(0);
 	}
-	/* Remove the new line character with null terminator */
-	if (line[n_byte - 1] == '\n')
-		line[n_byte - 1] = '\0';
+	if (line[n_byte] == '\n')
+		line[n_byte] = '\0';
 	return (line);
 }

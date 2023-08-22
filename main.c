@@ -11,8 +11,7 @@
 
 int main(int argc, char **argv, char **env)
 {
-	char *line = NULL, *prompt = "$ ";
-	char **tokens = NULL;
+	char *line = NULL, *prompt = ">> $ ", **tokens = NULL;
 	int mode;
 
 	if (argc > 1 || argv == NULL)
@@ -23,30 +22,29 @@ int main(int argc, char **argv, char **env)
 	while (1)
 	{
 		if (mode == 1)
-			write(STDOUT_FILENO, prompt, 2);
+			write(STDOUT_FILENO, prompt, 5);
 		line = _getline();
 		if (line != NULL)
 		{
 			tokens = _token(line);
-			comment_handler(tokens);
+			/*comment_handler(tokens);*/
 			if (tokens[0] == NULL || tokens == NULL)
 			{
 				free(line), free_token_array(tokens);
-				continue;
-			}
-			if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "quit") == 0)
-			{
-				free(line), free_token_array(tokens), exit(0);
-			}
-			if (exec_cmd(tokens, argv, env) == -1)
-			{
-				free(line), free_token_array(tokens);
-				continue;
 			}
 			else
 			{
-				free(line);
-				continue;
+				if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "quit") == 0)
+				{
+					free(line), free_token_array(tokens), exit(0);
+				}
+				if (exec_cmd(tokens, argv, env) == -1)
+				{
+					free(line), free_token_array(tokens);
+					_exit(-1);
+				}
+				else
+					free(line);
 			}
 		}
 	}
