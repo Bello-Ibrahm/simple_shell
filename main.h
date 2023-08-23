@@ -9,16 +9,27 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
+
+extern int errno;
+extern char **environ;
 
 char *_getline(void);
 char **_token(char *line_arg);
 void signal_handler(int x);
+void signal_handler2(int x);
 int  exec_cmd(char **args, char **argv, char **env);
 void _error(char *msg, char **argv);
 char *_path(char *cmd, char **env);
+char *_getpath(char *str);
+char  *proc_path(char **tokens, char *path);
 
 
+int count_words(char *str);
+char *_strcpy(char *dest, char *src);
+int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 void free_token_array(char **token);
 char *_strcat(char *dest, char *src);
+void comment_handler(char **str);
 #endif

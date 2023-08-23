@@ -16,7 +16,48 @@ void free_token_array(char **tokens)
 	}
 	free(tokens);
 }
+/**
+ * _getpath - get the environment PATH value
+ * @str: path variable to get
+ *
+ * Return: return the path value
+ */
+char *_getpath(char *str)
+{
+	int a = 0;
+	char *tk, *encpy, *rst = NULL;
 
+	while (environ[a])
+	{
+		encpy = strdup(environ[a]);
+		tk = strtok(encpy, "=");
+		if (strcmp(tk, str) == 0)
+			rst = strdup(strtok(NULL, "="));
+		free(encpy);
+		a++;
+	}
+	return (rst);
+}
+/**
+ * comment_handler - handle the comment pass to args
+ * @str: string of argument
+ * Return: No return value
+ */
+void comment_handler(char **str)
+{
+	int i = 0;
+
+	if ((*str)[i] == '#')
+	{
+		while ((*str)[i])
+		{
+			if ((*str)[i] != '#')
+				break;
+
+			(*str)++;
+		}
+	}
+}
 /**
  * _putchar - writes the character c to stdout
  * @c: The character to print

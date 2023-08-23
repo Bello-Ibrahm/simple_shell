@@ -11,29 +11,42 @@
 int  exec_cmd(char **args, char **argv, char **env)
 {
 	int status, ret = 0;
+	char *path, *cmd_path;
 	pid_t  pid;
 
-	pid = fork();
-	if (pid < 0)
+	path = _getpath("PATH");
+	cmd_path = proc_path(args, path);
+	if (cmd_path != NULL)
 	{
-		perror("Error");
-	}
-	if (pid == 0)
-	{
-		if (execve(args[0], args,  env) == -1)
+		signal(SIGINT, signal_handler2);
+		pid = fork();
+		if (pid < 0)
 		{
-			_error("%s: No such file or directory \n", argv);
-			ret = -1;
+			write(2, "Fork error", 10);
+			free(path), free(cmd_path), exit(-1);
+		}
+		if (pid == 0)
+		{
+			if (execve(cmd_path, args, env) == -1)
+			{
+				_error("%s: No such file or directory \n", argv), ret = -1;
+			}
+		}
+		else if (pid > 0)
+		{
+			do {
+				waitpid(pid, &status, WUNTRACED);
+				signal(SIGINT, signal_handler);
+				/*free(cmd_path);*/
+			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		}
 	}
-	else if (pid > 0)
+	else
 	{
-		do {
-			waitpid(pid, &status, WUNTRACED);
-			free_token_array(args);
-		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
+		perror("Error-cmd-path");
+		free(cmd_path);
 	}
-
+	free(path), free_token_array(args);
 	return (ret);
 
 }
