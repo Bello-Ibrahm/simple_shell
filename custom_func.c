@@ -58,34 +58,43 @@ void comment_handler(char **str)
 		}
 	}
 }
+
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
- */
-int _putchar(char c)
+ * word_len - function to count number of letters of
+ * each word
+ * @str: word
+ * Return: number of letters of tje word
+**/
+int word_len(char *str)
 {
-	return (write(1, &c, 1));
+	int index = 0, len = 0;
+
+	while (*(str + index) && *(str + index) != ' ')
+	{
+		len++;
+		index++;
+	}
+	return (len);
 }
 
 /**
- * _strcmp - Write a function that compares two strings.
- *
- * @s1: This is the input string
- * @s2: This is the input string
- *
- * Return: If the strings are equals return "0", if not return other number
- */
-
-int _strcmp(char *s1, char *s2)
+ * count_words - functin to count number of words
+ * @str: string
+ * Return: number of words
+**/
+int count_words(char *str)
 {
-	for (; (*s1 != '\0' && *s2 != '\0') && (*s1 == *s2); s1++, s2++)
-		;
-	if (*s1 == *s2)
+	int index = 0, words = 0, len = 0;
+
+	for (index = 0; *(str + index); index++)
+		len++;
+	for (index = 0; index < len; index++)
 	{
-		return (0);
+		if (*(str + index) != ' ')
+		{
+			words++;
+			index += word_len(str + index);
+		}
 	}
-	return (*s1 - *s2);
+	return (words);
 }
