@@ -34,41 +34,49 @@ int _strlen(char *s)
 }
 
 /**
- * word_len - function to count number of letters of
- * each word
- * @str: word
- * Return: number of letters of tje word
-**/
-int word_len(char *str)
-{
-	int index = 0, len = 0;
+ * _strcmp - Write a function that compares two strings.
+ *
+ * @s1: This is the input string
+ * @s2: This is the input string
+ *
+ * Return: If the strings are equals return "0", if not return other number
+ */
 
-	while (*(str + index) && *(str + index) != ' ')
+int _strcmp(char *s1, char *s2)
+{
+	for (; (*s1 != '\0' && *s2 != '\0') && (*s1 == *s2); s1++, s2++)
+		;
+	if (*s1 == *s2)
 	{
-		len++;
-		index++;
+		return (0);
 	}
-	return (len);
+	return (*s1 - *s2);
 }
 
 /**
- * count_words - functin to count number of words
- * @str: string
- * Return: number of words
-**/
-int count_words(char *str)
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
+int _putchar(char c)
 {
-	int index = 0, words = 0, len = 0;
+	return (write(1, &c, 1));
+}
 
-	for (index = 0; *(str + index); index++)
-		len++;
-	for (index = 0; index < len; index++)
+/**
+ * _puts - puts a string
+ *
+ * @str: string to print
+ */
+void _puts(char *str)
+{
+	int i;
+
+	for (i = 0; *(str + i) != '\0'; i++)
 	{
-		if (*(str + index) != ' ')
-		{
-			words++;
-			index += word_len(str + index);
-		}
+		_putchar(*(str + i));
 	}
-	return (words);
+	_putchar('\n');
 }

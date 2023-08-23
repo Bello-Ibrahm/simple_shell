@@ -8,7 +8,7 @@
 char **_token(char *line_arg)
 {
 	int buff_size, len = 0;
-	char *token, **token2, *delim = " \t\n\r";
+	char *token, **token2, *delim = " \"\'\t\n\r";
 
 	buff_size = count_words(line_arg);
 	if (buff_size == 0)
