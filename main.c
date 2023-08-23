@@ -34,19 +34,27 @@ int main(int argc, char **argv, char **env)
 			}
 			else
 			{
-				if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "quit") == 0)
+				if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "cd") == 0 ||
+						_strcmp(tokens[0], "help") == 0)
 				{
-					free(line), free_token_array(tokens), exit(0);
-				}
-				if (exec_cmd(tokens, argv, env) == -1)
-				{
-					free(line), free_token_array(tokens);
-					_exit(-1);
+					exec_builtin(tokens, line);
+					/*free(line), free_token_array(tokens), exit(0);*/
 				}
 				else
-					free(line);
+				{
+					comment_handler(tokens);
+					if (exec_cmd(tokens, argv, env) == -1)
+					{
+						free(line), free_token_array(tokens);
+						exit(2);
+					}
+					else
+						free(line);
+				}
 			}
 		}
+		else
+			exit(127);
 	}
 	return (0);
 }
