@@ -1,35 +1,62 @@
 #include "main.h"
+
+void run_execve(char **tokens, char **argv, char **env);
+
 /**
  * exec_cmd - Execute command
- * @args: Command to execute
+ * @tokens: tokenize command
+ * @argv: argument vector
+ * @line: string from getline
+ * @env: environment variable
+ *
+ * Return: No return value
+ */
+
+void  exec_cmd(char **tokens, char **argv, char *line, char **env)
+{
+	if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "cd") == 0 ||
+			_strcmp(tokens[0], "help") == 0)
+		exec_builtin(tokens, line);
+	else
+	{
+		free(line);
+		/*comment_handler(tokens);*/
+		run_execve(tokens, argv, env);
+	}
+}
+
+/**
+ * run_execve - Run the execution with the execve
+ * @tokens: the tokenize command
  * @argv: argument vector
  * @env: environment variable
  *
- * Return: return no value
+ * Return: no return.
  */
-
-int  exec_cmd(char **args, char **argv, char **env)
+void run_execve(char **tokens, char **argv, char **env)
 {
-	int status, ret = 0;
-	char *path, *cmd_path;
-	pid_t  pid;
+	char *prog_path;
+	int status;
+	pid_t pid;
 
-	path = _getpath("PATH");
-	cmd_path = proc_path(args, path);
-	if (cmd_path != NULL)
+	prog_path = proc_path(tokens, _getpath("PATH"));
+	if (prog_path != NULL)
 	{
 		signal(SIGINT, signal_handler2);
 		pid = fork();
 		if (pid < 0)
 		{
-			write(2, "Fork error", 10);
-			free(path), free(cmd_path), exit(-1);
+			free(prog_path), free_token_array(tokens);
+			perror("Fork error");
+			exit(-1);
 		}
 		if (pid == 0)
 		{
-			if (execve(cmd_path, args, env) == -1)
+			if (execve(prog_path, tokens, env) == -1)
 			{
-				_error("%s: No such file or directory \n", argv), ret = -1;
+				free(prog_path), free_token_array(tokens);
+				_error("%s: execve error\n", argv);
+				exit(-1);
 			}
 		}
 		else if (pid > 0)
@@ -37,16 +64,14 @@ int  exec_cmd(char **args, char **argv, char **env)
 			do {
 				waitpid(pid, &status, WUNTRACED);
 				signal(SIGINT, signal_handler);
-				/*free(cmd_path);*/
 			} while (!WIFEXITED(status) && !WIFSIGNALED(status));
 		}
 	}
 	else
 	{
+		free(prog_path);
 		perror("Error-cmd-path");
-		free(cmd_path);
+		errno = 127;
 	}
-	free(path), free_token_array(args);
-	return (ret);
-
+	free(prog_path), free_token_array(tokens);
 }

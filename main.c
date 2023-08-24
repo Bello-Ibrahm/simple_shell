@@ -27,30 +27,13 @@ int main(int argc, char **argv, char **env)
 		if (line != NULL)
 		{
 			tokens = _token(line);
-			/*comment_handler(tokens);*/
 			if (tokens[0] == NULL || tokens == NULL)
 			{
 				free(line), free_token_array(tokens);
 			}
 			else
 			{
-				if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "cd") == 0 ||
-						_strcmp(tokens[0], "help") == 0)
-				{
-					exec_builtin(tokens, line);
-					/*free(line), free_token_array(tokens), exit(0);*/
-				}
-				else
-				{
-					comment_handler(tokens);
-					if (exec_cmd(tokens, argv, env) == -1)
-					{
-						free(line), free_token_array(tokens);
-						exit(2);
-					}
-					else
-						free(line);
-				}
+				exec_cmd(tokens, argv, line, env);
 			}
 		}
 		else

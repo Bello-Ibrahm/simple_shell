@@ -8,9 +8,10 @@
  */
 void _help(char **args)
 {
-	UNUSED(args);
+	/*UNUSED(args);*/
 	_puts("Basic Simple Shell\n");
 	_puts("The command below are the basic usages\n");
+	free_token_array(args);
 }
 /**
  * exit_shell - exit the terminal
@@ -20,34 +21,29 @@ void _help(char **args)
  */
 void exit_shell(char **args)
 {
-	free_token_array(args);
-	exit(0);
-	/*l = _atoi(args[1]);
-	if (l == 98)
+
+	if (args[1] && _atoi(args[1])  == 98)
 	{
 		free_token_array(args);
 		exit(98);
 	}
-	if (args[1] && _strstr(args[1], "HBTN"))
+	else if (args[1] && _strstr(args[1], "HBTN"))
 	{
 		_puts("Illegal number: HBTN\n");
 		free_token_array(args);
-		errno = 2;
-		exit(errno);
+		exit(2);
 	}
-	if (args[1] && _strstr(args[1], "-98"))
+	else if (args[1] && _strstr(args[1], "-98"))
 	{
 		_puts("Illegal number: -98\n");
 		free_token_array(args);
-		errno = 2;
-		exit(errno);
+		exit(2);
 	}
 	else
 	{
 		free_token_array(args);
 		exit(0);
 	}
-	*/
 }
 
 
@@ -61,13 +57,19 @@ void _cd(char **args)
 {
 	if (args[1] == NULL)
 	{
-		_puts("No argument specified\n");
+		_puts(" ");
 	}
 	else
 	{
 		if (chdir(args[1]) != 0)
+		{
+			free_token_array(args);
 			_puts("cd error\n");
+			/*errno = 2;*/
+			exit(errno);
+		}
 	}
+	free_token_array(args);
 }
 
 /**
@@ -95,4 +97,5 @@ void exec_builtin(char **args, char *line)
 			builtins[i].func(args);
 		}
 	}
+	/*free_token_array(args);*/
 }

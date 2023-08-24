@@ -32,20 +32,20 @@ char *_getline(void);
 char **_token(char *line_arg);
 void signal_handler(int x);
 void signal_handler2(int x);
-int  exec_cmd(char **args, char **argv, char **env);
+void exec_cmd(char **tokens, char **argv, char *line, char **env);
 void _error(char *msg, char **argv);
-char *_path(char *cmd, char **env);
 char *_getpath(char *str);
 char  *proc_path(char **tokens, char *path);
 void exec_builtin(char **tokens, char *line);
-
+void comment_handler(char **str);
 int count_words(char *str);
+void free_token_array(char **token);
+
+
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
-void free_token_array(char **token);
 char *_strcat(char *dest, char *src);
-void comment_handler(char **str);
 int _putchar(char c);
 void _puts(char *str);
 int _atoi(char *s);
