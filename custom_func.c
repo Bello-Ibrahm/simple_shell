@@ -31,7 +31,7 @@ char *_getpath(char *str)
 	{
 		encpy = strdup(environ[a]);
 		tk = strtok(encpy, "=");
-		if (strcmp(tk, str) == 0)
+		if (_strcmp(tk, str) == 0)
 			rst = strdup(strtok(NULL, "="));
 		free(encpy);
 		a++;
