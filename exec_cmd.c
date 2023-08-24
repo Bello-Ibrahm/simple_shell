@@ -15,7 +15,7 @@ void run_execve(char **tokens, char **argv, char **env);
 void  exec_cmd(char **tokens, char **argv, char *line, char **env)
 {
 	if (_strcmp(tokens[0], "exit") == 0 || _strcmp(tokens[0], "cd") == 0 ||
-			_strcmp(tokens[0], "help") == 0)
+			_strcmp(tokens[0], "help") == 0 || _strcmp(tokens[0], "env") == 0)
 		exec_builtin(tokens, line);
 	else
 	{
@@ -47,7 +47,7 @@ void run_execve(char **tokens, char **argv, char **env)
 		if (pid < 0)
 		{
 			free(prog_path), free_token_array(tokens);
-			perror("Fork error");
+			write(2, "fork error", 10);
 			exit(-1);
 		}
 		if (pid == 0)
@@ -55,8 +55,7 @@ void run_execve(char **tokens, char **argv, char **env)
 			if (execve(prog_path, tokens, env) == -1)
 			{
 				free(prog_path), free_token_array(tokens);
-				_error("%s: execve error\n", argv);
-				exit(-1);
+				_exit(-1);
 			}
 		}
 		else if (pid > 0)
@@ -70,8 +69,8 @@ void run_execve(char **tokens, char **argv, char **env)
 	else
 	{
 		free(prog_path);
-		perror("Error-cmd-path");
-		errno = 127;
+		perror(argv[0]);
+		exit(127);
 	}
 	free(prog_path), free_token_array(tokens);
 }

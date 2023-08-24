@@ -15,7 +15,7 @@ char *_getline(void)
 	if (n_byte < 0)
 	{
 		free(line);
-		perror("getline error: ");
+		/*write(2, "\n", 1);*/
 		return (NULL);
 	}
 	if (line[n_byte] == '\n')

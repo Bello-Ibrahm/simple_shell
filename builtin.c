@@ -82,6 +82,7 @@ void exec_builtin(char **args, char *line)
 		{"help", _help},
 		{"exit", exit_shell},
 		{"cd", _cd},
+		{"env", _env},
 	};
 
 	free(line);

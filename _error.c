@@ -8,11 +8,13 @@
  */
 void _error(char *msg, char **argv)
 {
-	fprintf(stderr, msg, argv[0]);
+	_puts(argv[0]);
+	_puts(": ");
+	_puts(msg);
 }
 
 /**
-  * errmsg - function to print corresponding error
+  * _errmsg - function to print corresponding error
   * @err: number of error
   * @cmd: command inputted
   * @argv: argument vector

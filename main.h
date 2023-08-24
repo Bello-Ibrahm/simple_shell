@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <stdbool.h>
 
 
 /**
@@ -37,9 +38,11 @@ void _error(char *msg, char **argv);
 char *_getpath(char *str);
 char  *proc_path(char **tokens, char *path);
 void exec_builtin(char **tokens, char *line);
-void comment_handler(char **str);
+void comment_handler(char *source);
 int count_words(char *str);
 void free_token_array(char **token);
+void _env(char **args);
+
 
 char *_strcpy(char *dest, char *src);
 int _strlen(char *s);

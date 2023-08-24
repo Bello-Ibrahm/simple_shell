@@ -38,24 +38,26 @@ char *_getpath(char *str)
 	}
 	return (rst);
 }
+
 /**
  * comment_handler - handle the comment pass to args
- * @str: string of argument
+ * @source: string of argument
  * Return: No return value
  */
-void comment_handler(char **str)
+void comment_handler(char *source)
 {
 	int i = 0;
 
-	if ((*str)[i] == '#')
+	while (source[i] != '\0')
 	{
-		while ((*str)[i])
+		if (i > 0 && source[i] == '#' && source[i - 1] != ' ')
+			break;
+		if (source[i] == '#')
 		{
-			if ((*str)[i] != '#')
-				break;
-
-			(*str)++;
+			source[i] = '\0';
+			break;
 		}
+		i++;
 	}
 }
 
