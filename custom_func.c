@@ -16,35 +16,85 @@ void free_token_array(char **tokens)
 	}
 	free(tokens);
 }
-
 /**
- * _putchar - writes the character c to stdout
- * @c: The character to print
+ * _getpath - get the environment PATH value
+ * @str: path variable to get
  *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * Return: return the path value
  */
-int _putchar(char c)
+char *_getpath(char *str)
 {
-	return (write(1, &c, 1));
+	int a = 0;
+	char *tk, *encpy, *rst = NULL;
+
+	while (environ[a])
+	{
+		encpy = strdup(environ[a]);
+		tk = strtok(encpy, "=");
+		if (strcmp(tk, str) == 0)
+			rst = strdup(strtok(NULL, "="));
+		free(encpy);
+		a++;
+	}
+	return (rst);
+}
+/**
+ * comment_handler - handle the comment pass to args
+ * @str: string of argument
+ * Return: No return value
+ */
+void comment_handler(char **str)
+{
+	int i = 0;
+
+	if ((*str)[i] == '#')
+	{
+		while ((*str)[i])
+		{
+			if ((*str)[i] != '#')
+				break;
+
+			(*str)++;
+		}
+	}
 }
 
 /**
- * _strcmp - Write a function that compares two strings.
- *
- * @s1: This is the input string
- * @s2: This is the input string
- *
- * Return: If the strings are equals return "0", if not return other number
- */
-
-int _strcmp(char *s1, char *s2)
+ * word_len - function to count number of letters of
+ * each word
+ * @str: word
+ * Return: number of letters of tje word
+**/
+int word_len(char *str)
 {
-	for (; (*s1 != '\0' && *s2 != '\0') && (*s1 == *s2); s1++, s2++)
-		;
-	if (*s1 == *s2)
+	int index = 0, len = 0;
+
+	while (*(str + index) && *(str + index) != ' ')
 	{
-		return (0);
+		len++;
+		index++;
 	}
-	return (*s1 - *s2);
+	return (len);
+}
+
+/**
+ * count_words - functin to count number of words
+ * @str: string
+ * Return: number of words
+**/
+int count_words(char *str)
+{
+	int index = 0, words = 0, len = 0;
+
+	for (index = 0; *(str + index); index++)
+		len++;
+	for (index = 0; index < len; index++)
+	{
+		if (*(str + index) != ' ')
+		{
+			words++;
+			index += word_len(str + index);
+		}
+	}
+	return (words);
 }

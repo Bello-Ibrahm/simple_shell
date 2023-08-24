@@ -1,41 +1,30 @@
 #include "main.h"
 /**
- * _token - Parse user command
+ * _token - tokenize user command
  * @line_arg: argument to parse
  *
- * Return: Return the command to fork
+ * Return: Return the token argument
  */
 char **_token(char *line_arg)
 {
-	int len = 0, buff_size = 16;
-	char *token, **tokens;
-	char *delim = " \t\r\n";
+	int buff_size, len = 0;
+	char *token, **token2, *delim = " \'\"\t\n\r";
 
-	tokens = malloc(sizeof(char *) * buff_size);
-	if (!tokens)
+	buff_size = count_words(line_arg);
+	if (buff_size == 0)
 	{
-		perror("Error-2 :");
-		exit(1);
+		return (NULL);
 	}
 	token = strtok(line_arg, delim);
+	token2 = malloc(sizeof(char *) * (buff_size + 1));
+
 	while (token != NULL)
 	{
-		tokens[len] = token;
-		len++;
-
-		if (len >= buff_size)
-		{
-			buff_size = (int)(buff_size * 1.5);
-			tokens = realloc(tokens, buff_size * sizeof(char *));
-			if (!tokens)
-			{
-				perror("Error-3: ");
-				exit(1);
-			}
-		}
+		token2[len] = malloc(sizeof(char) * (_strlen(token) + 1));
+		token2[len] = _strcpy(token2[len], token);
 		token = strtok(NULL, delim);
+		len++;
 	}
-	tokens[len] = NULL;
-	return (tokens);
-
+	token2[len] = NULL;
+	return (token2);
 }
