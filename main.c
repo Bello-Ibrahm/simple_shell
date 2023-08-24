@@ -14,6 +14,7 @@ int main(int argc, char **argv, char **env)
 	char *line = NULL, *prompt = ">> $ ", **tokens = NULL;
 	int mode;
 
+	UNUSED(env);
 	if (argc > 1 || argv == NULL)
 		write(2, "Please run with no arguments\n", 29), exit(127);
 	signal(SIGINT, signal_handler);
@@ -27,17 +28,32 @@ int main(int argc, char **argv, char **env)
 		if (line != NULL)
 		{
 			tokens = _token(line);
+			/*comment_handler(tokens);*/
 			if (tokens[0] == NULL || tokens == NULL)
 			{
 				free(line), free_token_array(tokens);
 			}
 			else
 			{
+<<<<<<< HEAD
 				exec_cmd(tokens, argv, line, env);
 			}
 		}
 		else
 			exit(127);
+=======
+				if (
+					_strcmp(tokens[0], "exit") == 0
+					|| _strcmp(tokens[0], "cd") == 0
+				       || _strcmp(tokens[0], "help") == 0)
+				{
+					exec_builtin(tokens, line);
+				}
+				else
+					exec_cmd(tokens, argv, env);
+			}
+		}
+>>>>>>> 26804c8959950ad8a947fbe6b3509cf67f87e496
 	}
 	return (0);
 }

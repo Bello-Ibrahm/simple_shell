@@ -14,11 +14,21 @@ char *_getline(void)
 	n_byte = getline(&line, &n, stdin);
 	if (n_byte < 0)
 	{
+<<<<<<< HEAD
 		/*perror("getline error: ");*/
 		free(line);
 		if (isatty(STDIN_FILENO) != 0)
 			write(STDOUT_FILENO, "\n", 1);
 		exit(0);
+=======
+		free(line);
+		perror("getline error: ");
+		/*
+		 * if (isatty(STDIN_FILENO) != 0)
+		 *	write(STDOUT_FILENO, "\n", 1);
+		*/
+		exit(1);
+>>>>>>> 26804c8959950ad8a947fbe6b3509cf67f87e496
 	}
 	if (line[n_byte] == '\n')
 		line[n_byte] = '\0';

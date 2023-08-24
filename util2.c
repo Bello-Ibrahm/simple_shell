@@ -30,6 +30,7 @@ int _atoi(char *s)
 	}
 	return (num * sign);
 }
+<<<<<<< HEAD
 
 /**
  * _strstr - finds the first occurrence of the substring.
@@ -83,3 +84,5 @@ char *_strcat(char *dest, char *src)
 		dest[i] = src[k];
 	return (dest);
 }
+=======
+>>>>>>> 26804c8959950ad8a947fbe6b3509cf67f87e496
