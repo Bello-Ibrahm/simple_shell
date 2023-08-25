@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env)
 		line = _getline();
 		if (line != NULL)
 		{
-			/*fix_cmt(line);*/
+			comment_handler(line);
 			tokens = _token(line);
 			if (tokens[0] == NULL || tokens == NULL)
 

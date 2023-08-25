@@ -40,7 +40,7 @@ void run_execve(char **tokens, char **argv, char **env)
 
 	UNUSED(argv);
 	prog_path = proc_path(tokens, _getpath("PATH"));
-	comment_handler(prog_path);
+	/*comment_handler(prog_path);*/
 	if (prog_path != NULL)
 	{
 		pid = fork();
