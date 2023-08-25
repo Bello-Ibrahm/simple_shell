@@ -61,6 +61,7 @@ void comment_handler(char *source)
 	}
 }
 
+
 /**
  * word_len - function to count number of letters of
  * each word

@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env)
 		line = _getline();
 		if (line != NULL)
 		{
-			comment_handler(line);
+			/*fix_cmt(line);*/
 			tokens = _token(line);
 			if (tokens[0] == NULL || tokens == NULL)
 
@@ -39,7 +39,9 @@ int main(int argc, char **argv, char **env)
 			}
 		}
 		else
+		{
 			exit(0);
+		}
 	}
 	return (0);
 }

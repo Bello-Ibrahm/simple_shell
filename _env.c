@@ -1,26 +1,20 @@
 #include "main.h"
-
 /**
  * _env - Print the environment variables
  * @args: command arguments
+ * @argv: argument vector
  * Return: no return
  */
-void _env(char **args)
+void _env(char **args, char **argv)
 {
 	int i = 0;
 
 	UNUSED(args);
-	if (environ != NULL)
+	UNUSED(argv);
+	while (environ[i] != NULL)
 	{
-		while (environ[i] != NULL)
-		{
-			write(1, environ[i], _strlen(environ[i]));
-			write(1, "\n", 1);
-			i++;
-		}
-	}
-	else
-	{
-		write(2, "Environment is Null, Can't Print it\n", 36);
+		write(1, environ[i], _strlen(environ[i]));
+		write(1, "\n", 1);
+		i++;
 	}
 }
